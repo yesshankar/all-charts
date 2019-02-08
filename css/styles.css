@@ -1,0 +1,28 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+    font-size: 11px;
+    color: white;
+    background-color: #171b29;
+}
+#wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+.chart-container {
+    width: 502px;
+    height: 280px;
+    border: 1px solid white;
+    margin: 10px 0px;
+}
+#status {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 180px;
+    border: 1px solid grey;
+}

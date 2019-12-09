@@ -1,27 +1,26 @@
-let wrapper = document.getElementById('wrapper');
+let wrapper = document.getElementById("wrapper");
 let containerWidth = 500;
 let container;
 let tvScript;
 
 const charts = [
-    {id: "428e7", symbol: "COINBASE:BTCUSD"},
-    {id: "428f7", symbol: "BITFINEX:BTCUSD"},
-    {id: "429f7", symbol: "BINANCE:BTCUSDT"},
-    {id: "f3d41", symbol: "COINBASE:LTCUSD"},
-    {id: "f3d40", symbol: "COINBASE:ETHUSD"},
-    {id: "f2d40", symbol: "BITFINEX:ETHUSD"},
-    {id: "f2e40", symbol: "COINBASE:BCHUSD"},
-    {id: "f3e40", symbol: "BINANCE:BCHSVUSDT"},
-    {id: "f4e40", symbol: "BINANCE:BCHABCUSDT"}
+  { id: "428e7", symbol: "COINBASE:BTCUSD" },
+  { id: "f3d40", symbol: "COINBASE:ETHUSD" },
+  { id: "428f7", symbol: "COINBASE:XRPUSD" },
+  { id: "f2e40", symbol: "COINBASE:BCHUSD" },
+  { id: "f3d41", symbol: "COINBASE:LTCUSD" },
+  { id: "429f7", symbol: "COINBASE:EOSUSD" },
+  { id: "f3e40", symbol: "BINANCE:BNBUSDT" },
+  { id: "f2d40", symbol: "HUOBI:BSVUSDT" },
+  { id: "f4e40", symbol: "COINBASE:XLMUSD" }
 ];
 
-
 charts.forEach((value, index) => {
-    container = document.createElement('div');
-    container.className = "chart-container";
-    wrapper.appendChild(container);
+  container = document.createElement("div");
+  container.className = "chart-container";
+  wrapper.appendChild(container);
 
-    container.innerHTML = `
+  container.innerHTML = `
         <!-- TradingView Widget BEGIN -->
         <div class="tradingview-widget-container">
             <div id="tradingview_${charts[index].id}"></div>
@@ -29,8 +28,8 @@ charts.forEach((value, index) => {
         <!-- TradingView Widget END -->
     `;
 
-    tvScript = document.createElement('script');
-    tvScript.textContent = `
+  tvScript = document.createElement("script");
+  tvScript.textContent = `
         new TradingView.widget(
             {
                 "width": ${containerWidth},
@@ -49,7 +48,5 @@ charts.forEach((value, index) => {
         );
     `;
 
-    container.children[0].appendChild(tvScript);
-
-
+  container.children[0].appendChild(tvScript);
 });

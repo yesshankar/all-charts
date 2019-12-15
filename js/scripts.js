@@ -1,7 +1,9 @@
 let wrapper = document.getElementById("wrapper");
-let containerWidth = 500;
+let containers = [];
 let container;
 let tvScript;
+let widthOffset = 5;
+let heightOffset = 2;
 
 const charts = [
   { id: "428e7", symbol: "COINBASE:BTCUSD" },
@@ -15,15 +17,33 @@ const charts = [
   { id: "f4e40", symbol: "COINBASE:XLMUSD" }
 ];
 
-charts.forEach((value, index) => {
+charts.forEach((chart, i) => {
   container = document.createElement("div");
   container.className = "chart-container";
   wrapper.appendChild(container);
+  containers.push(container);
 
   container.innerHTML = `
+          <!-- TradingView Widget BEGIN -->
+          <div class="tradingview-widget-container">
+              <div id="tradingview_">${i + 1}</div>
+          </div>
+          <!-- TradingView Widget END -->
+      `;
+});
+
+containers.forEach((chartContainer, i) => {
+  let width = chartContainer.clientWidth - widthOffset;
+  let height = Math.round(width / 2) - heightOffset;
+
+  populateChart(chartContainer, charts[i], width, height);
+});
+
+function populateChart(elem, chart, width, height) {
+  elem.innerHTML = `
         <!-- TradingView Widget BEGIN -->
         <div class="tradingview-widget-container">
-            <div id="tradingview_${charts[index].id}"></div>
+            <div id="tradingview_${chart.id}"></div>
         </div>
         <!-- TradingView Widget END -->
     `;
@@ -32,9 +52,9 @@ charts.forEach((value, index) => {
   tvScript.textContent = `
         new TradingView.widget(
             {
-                "width": ${containerWidth},
-                "height": 280,
-                "symbol": "${charts[index].symbol}",
+                "width": ${width},
+                "height": ${height},
+                "symbol": "${chart.symbol}",
                 "interval": "5",
                 "timezone": "Etc/UTC",
                 "theme": "Dark",
@@ -43,10 +63,28 @@ charts.forEach((value, index) => {
                 "toolbar_bg": "#f1f3f6",
                 "enable_publishing": false,
                 "allow_symbol_change": true,
-                "container_id": "tradingview_${charts[index].id}"
+                "container_id": "tradingview_${chart.id}"
             }
         );
     `;
 
-  container.children[0].appendChild(tvScript);
-});
+  elem.children[0].appendChild(tvScript);
+}
+
+function resizeCharts() {
+  let iframes = document.querySelectorAll("iframe");
+
+  containers.forEach((container, i) => {
+    let width = container.clientWidth - widthOffset;
+    let height = Math.round(width / 2) - heightOffset;
+    let iframeParent = iframes[i].parentElement;
+
+    container.style.height = height + "px";
+    iframeParent.parentElement.style.width = width + "px";
+    iframeParent.parentElement.style.height = height + "px";
+    iframeParent.style.width = width + "px";
+    iframeParent.style.height = height + "px";
+  });
+}
+
+window.addEventListener("resize", resizeCharts);
